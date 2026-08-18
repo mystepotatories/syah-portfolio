@@ -1,0 +1,18 @@
+[
+  {
+    "date": "2026-08-17",
+    "scope": "app",
+    "macrostructure": "Photographic",
+    "theme": "custom kinetic archive",
+    "enrichment": "real project screenshots",
+    "brief": "Replace the streaming catalogue with an animated image-led portfolio"
+  },
+  {
+    "date": "2026-08-17",
+    "scope": "app",
+    "macrostructure": "Catalogue",
+    "theme": "custom cinematic",
+    "enrichment": "Tier A CSS artwork",
+    "brief": "Redesign the portfolio with a streaming-catalogue interaction model"
+  }
+]
