@@ -9,10 +9,11 @@
 <svelte:head><title>Projects — SYERRY</title></svelte:head>
 
 <Header />
-<main class="projects-page">
+<div class="projects-shell">
   <div class="particle-backdrop" aria-hidden="true">
     <div class="particle-viewport"><FluidParticlesBackground variant="drift" /></div>
   </div>
+<main class="projects-page">
   <p class="eyebrow" use:reveal>Selected work</p>
   <h1 use:reveal={80}>Projects</h1>
   <section>
@@ -27,10 +28,12 @@
     {/each}
   </section>
 </main>
+</div>
 
 <style>
-  .projects-page{position:relative;isolation:isolate;max-width:88rem;margin:auto;padding:clamp(2rem,5vw,4rem) var(--gutter)}
-  .particle-backdrop{position:absolute;z-index:-1;inset-block:0;left:50%;width:100vw;transform:translateX(-50%);pointer-events:none;overflow:clip}
+  .projects-shell{position:relative;isolation:isolate;overflow:clip}
+  .projects-page{position:relative;z-index:1;max-width:88rem;margin:auto;padding:clamp(2rem,5vw,4rem) var(--gutter)}
+  .particle-backdrop{position:absolute;z-index:0;inset:0;pointer-events:none}
   .particle-viewport{position:sticky;top:0;height:100vh;height:100dvh}
   h1{font-size:clamp(2.75rem,6vw,5rem);margin:0 0 2rem;line-height:1.1}
   section{display:grid;gap:1.25rem}

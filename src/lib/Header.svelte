@@ -22,7 +22,7 @@
       <button class="contact-trigger" bind:this={contactButton} type="button" aria-expanded={contactOpen} aria-controls="contact-card" onclick={() => (contactOpen = !contactOpen)}><svg class="contact-trigger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3" /><path d="m3 7 9 6 9-6" /></svg>Contact</button>
       {#if contactOpen}
         <div class="contact-card" id="contact-card" role="dialog" aria-labelledby="contact-title">
-          <p id="contact-title">Contact</p>
+          <p id="contact-title">Reach out to me:</p>
           <button class="contact-close" type="button" aria-label="Close contact card" onclick={closeContact}>×</button>
           <a class="contact-row" href="mailto:syahirahzakariah@gmail.com">
             <span class="contact-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3" /><path d="m3 7 9 6 9-6" /></svg></span>

@@ -1,5 +1,6 @@
 .project-hero { position: relative; isolation: isolate; overflow: hidden; display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: clamp(1.5rem, 4vw, 4rem); align-items: center; padding: clamp(2rem, 4vw, 4rem) var(--gutter); color: var(--card-ink); }
 .hero-copy { position: relative; z-index: 1; max-width: 38rem; }
+.hero-particles { position: absolute; z-index: 0; inset: 0; overflow: clip; contain: paint; pointer-events: none; }
 .back { display: inline-block; margin-bottom: 1.75rem; font-size: .9375rem; font-weight: 700; color: var(--link, #6232aa); }
 .hero-copy>p, .label { margin: 0 0 .75rem; font-size: .8125rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .label { color: var(--accent); }
@@ -16,7 +17,8 @@
 .technology { display: flex; align-items: center; gap: .5rem; padding: .6rem .8rem; border: 1px solid var(--border); border-radius: .65rem; background: var(--surface-alt); }
 .technology img { width: 1.5rem; height: 1.5rem; object-fit: contain; }
 .technology b { font-size: .875rem; overflow-wrap: anywhere; }
-.gallery { max-width: 88rem; margin: auto; padding: clamp(2.5rem, 5vw, 4rem) var(--gutter); }
+.gallery-section { position: relative; isolation: isolate; overflow: clip; }
+.gallery-ocean { position: absolute; z-index: 0; inset: 0; overflow: hidden; contain: paint; pointer-events: none; }
 .gallery header { margin-bottom: 1rem; }
 .gallery h2 { margin: 0; font-size: clamp(1.875rem, 3vw, 2.75rem); }
 .next-project { display: grid; gap: .5rem; padding: clamp(2rem, 4vw, 3.5rem) var(--gutter); background: var(--surface-alt); }

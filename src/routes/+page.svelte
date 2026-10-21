@@ -2,6 +2,7 @@
   import Header from '$lib/Header.svelte';
   import FeaturedCarousel from '$lib/FeaturedCarousel.svelte';
   import FluidParticlesBackground from '$lib/FluidParticlesBackground.svelte';
+  import ProjectImage from '$lib/ProjectImage.svelte';
   import { reveal } from '$lib/reveal';
   import { projects } from '$lib/projects';
 </script>
@@ -19,10 +20,10 @@
     <div class="hero-art" aria-hidden="true">
       <svg class="swirl swirl-one" viewBox="0 0 600 600" fill="none"><path d="M515.266 181.33C377.943 51.564 128.537 136.256 50.8123 293.565C-26.9127 450.874 125.728 600 125.728 600" /></svg>
       <svg class="swirl swirl-two" viewBox="0 0 700 700" fill="none"><path d="M26.8838 528.274C193.934 689.816 480.051 637.218 594.397 451.983C708.742 266.748 543.953 2.22235 543.953 2.22235" /></svg>
-      <img class="shot shot-one" src="/projects/etow-reference.png" alt="" fetchpriority="high" />
-      <img class="shot shot-two" src="/projects/jksm.webp" alt="" fetchpriority="high" />
-      <img class="shot shot-three" src="/projects/enilai-online.webp" alt="" />
-      <img class="shot shot-four" src="/projects/icomm-mpaj.webp" alt="" />
+      <span class="shot shot-one"><ProjectImage src="/projects/etow-reference.png" alt="" loading="eager" priority /></span>
+      <span class="shot shot-two"><ProjectImage src="/projects/jksm.webp" alt="" loading="eager" priority /></span>
+      <span class="shot shot-three"><ProjectImage src="/projects/enilai-online.webp" alt="" loading="eager" /></span>
+      <span class="shot shot-four"><ProjectImage src="/projects/icomm-mpaj.webp" alt="" loading="eager" /></span>
       <span class="spark spark-one">✦</span><span class="spark spark-two">✦</span>
     </div>
     <div class="hero-copy">

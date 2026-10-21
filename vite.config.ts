@@ -1,4 +1,5 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
+import { wgslVitePlugin } from '@vgpu/wgsl/loader-vite';
 
-export default defineConfig({ plugins: [sveltekit()] });
+export default defineConfig({ plugins: [wgslVitePlugin(), sveltekit()] });

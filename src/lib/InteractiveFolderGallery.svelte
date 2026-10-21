@@ -60,15 +60,13 @@
 <div class="folder-gallery" class:opened class:hovering style:--count={images.length}>
   <div class="folder-particles" aria-hidden="true">
     {#each Array(18) as _, index}
-      <span
-          class="particle"
-          class:dot={index % 3 !== 0}
-          style:left={`${8 + (index * 19) % 84}%`}
-          style:top={`${12 + (index * 23) % 72}%`}
-          style:--size={`${index % 3 === 0 ? 28 : 7 + index % 4}px`}
-          style:--delay={`${index * -.7}s`}
-          style:--duration={`${5 + index % 4}s`}
-          style:--drift={`${index % 2 ? 12 : -12}px`}
+      <span class="particle" class:dot={index % 3 !== 0}
+        style:left={`${8 + (index * 19) % 84}%`}
+        style:top={`${12 + (index * 23) % 72}%`}
+        style:--size={`${index % 3 === 0 ? 28 : 7 + index % 4}px`}
+        style:--delay={`${index * -.7}s`}
+        style:--duration={`${5 + index % 4}s`}
+        style:--drift={`${index % 2 ? 12 : -12}px`}
       >{index % 3 === 0 ? '✦' : ''}</span>
     {/each}
   </div>
@@ -131,15 +129,19 @@
 </div>
 
 <style>
-  .folder-gallery { --card-width: clamp(12rem, 22vw, 18rem); --card-height: clamp(16rem, 27vw, 21rem); --spread: clamp(7rem, 12vw, 10rem); --folder-height: clamp(10rem, 18vw, 14rem); --lift: calc(var(--folder-height) + 2rem); position: relative; isolation: isolate; padding: clamp(.75rem, 2vw, 1.5rem); border: 1px solid var(--border); border-radius: var(--radius); background: linear-gradient(135deg, #a9ddff30, #cdb8f530); }
-  .folder-particles { position: absolute; z-index: 0; inset: 2rem 0 6rem; pointer-events: none; }
-  .folder-particles::before { content: ''; position: absolute; inset: 4% 8% 0; border-radius: 50%; background: radial-gradient(ellipse, #8dd7ff66, #c6b4f52b 45%, transparent 72%); }
+  .folder-gallery { --card-width: clamp(12rem, 22vw, 18rem); --card-height: clamp(16rem, 27vw, 21rem); --spread: clamp(7rem, 12vw, 10rem); --folder-height: clamp(10rem, 18vw, 14rem); --lift: calc(var(--folder-height) + 2rem); position: relative; isolation: isolate; padding: clamp(.75rem, 2vw, 1.5rem); border: 1px solid var(--border); border-radius: var(--radius); background: linear-gradient(135deg, #a9ddff30, #cdb8f530), var(--bg); }
+  .folder-gallery { background: linear-gradient(135deg, #ffffff99, #e0efff80 45%, #eee8ff8c); border: 1px solid #ffffffb3; backdrop-filter: blur(6px) saturate(160%); -webkit-backdrop-filter: blur(6px) saturate(160%); box-shadow: inset 0 2px 0 #ffffffcc, inset 1px 0 0 #ffffff80, inset 0 -1px 0 #9bbfe040, 0 18px 48px #46739c20, 0 2px 8px #46739c0d; }
+  :global(:root[data-theme='dark']) .folder-gallery { background: linear-gradient(135deg, #211d2baa, #20304380 45%, #30263b99); border-color: #ffffff30; box-shadow: inset 0 1px 0 #ffffff40, inset 1px 0 0 #ffffff1a, 0 18px 48px #00000040; }
+  .folder-particles { position: absolute; z-index: 0; inset: 2rem 0 6rem; pointer-events: none; overflow: hidden; }
+  .folder-particles::before { content: ''; position: absolute; inset: 4% 8% 0; border-radius: 50%; background: radial-gradient(ellipse, #8dd7ff33, #c6b4f51a 45%, transparent 72%); }
   .folder-particles::after { content: ''; position: absolute; left: 50%; top: 50%; width: min(85%, 48rem); aspect-ratio: 1.65; border: 1px solid #8accef66; border-radius: 50%; transform: translate(-50%, -40%) rotate(-12deg); }
-  .folder-gallery .particle { position: absolute; width: var(--size); height: var(--size); color: #4faee0; font-size: var(--size); line-height: 1; animation: particle-float var(--duration) ease-in-out var(--delay) infinite !important; }
+  .particle { position: absolute; width: var(--size); height: var(--size); color: #4faee0; font-size: var(--size); line-height: 1; animation: particle-float var(--duration) ease-in-out var(--delay) infinite !important; }
   .particle.dot { border-radius: 50%; background: currentColor; }
   .particle:nth-child(3n + 1) { color: var(--accent); }
+  @keyframes particle-float { 0%, 100% { opacity: .25; transform: translate3d(0, 0, 0) rotate(0deg); } 50% { opacity: .65; transform: translate3d(var(--drift), -24px, 0) rotate(25deg); } }
+  @media (max-width: 600px) { .particle:nth-child(n + 9) { display: none; } }
   .folder-scroller { position: relative; z-index: 1; overflow-x: auto; overflow-y: hidden; padding-block: 1rem 1.5rem; overscroll-behavior-x: contain; scrollbar-color: var(--border) transparent; }
-  .folder-stage { position: relative; width: 100%; height: 32rem; perspective: 1000px; }
+  .folder-stage { position: relative; width: 100%; height: 26rem; perspective: 1000px; }
   .opened .folder-stage { height: calc(var(--card-height) + var(--lift) + 6rem); min-width: calc((var(--count) - 1) * var(--spread) + var(--card-width) + 3rem); }
   .folder-back { position: absolute; left: 50%; bottom: 1.5rem; width: min(28.5rem, 80%); height: calc(var(--folder-height) + 3rem); border: 1px solid #5aaedd; border-radius: .8rem; background: linear-gradient(#96d9ff, #58b5eb); box-shadow: 0 1.5rem 2.5rem #2678a32b; transform: translateX(-50%); transition: opacity .35s, scale .35s; }
   .folder-back::before { content: ''; position: absolute; left: -1px; top: -1.5rem; width: 40%; height: 2rem; border: 1px solid #5aaedd; border-bottom: 0; border-radius: .8rem .8rem 0 0; background: #96d9ff; }
@@ -164,8 +166,6 @@
   .gallery-controls { position: relative; z-index: 1; display: flex; min-height: 4rem; align-items: center; justify-content: center; flex-wrap: wrap; gap: .75rem 1.25rem; padding: .75rem .25rem 0; text-align: center; }
   .gallery-controls p { margin: 0; color: var(--muted); font-size: .8125rem; }
   .close-folder { display: inline-flex; align-items: center; gap: .75rem; min-height: 44px; padding: .5rem 1rem; border: 1px solid var(--border); border-radius: 99px; background: var(--surface); font-size: .8125rem; transition: transform .2s var(--ease-out); }
-  @keyframes particle-float { 0%, 100% { opacity: .25; transform: translate3d(0, 0, 0) rotate(0deg); } 50% { opacity: .65; transform: translate3d(var(--drift), -24px, 0) rotate(25deg); } }
-  @media (max-width: 600px) { .particle:nth-child(n + 9) { display: none; } }
   @media (max-width: 600px) { .folder-stage { height: 24rem; } .opened .folder-stage { height: calc(var(--card-height) + var(--lift) + 5rem); } .opened .photo { bottom: 1rem; } }
   @media (prefers-reduced-motion: reduce) { .photo, .folder-front, .folder-back, .close-folder { transition: none; } }
 </style>

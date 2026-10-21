@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
 
-  let { variant = 'fluid' }: { variant?: 'fluid' | 'particles' | 'drift' } = $props();
+  let { variant = 'fluid' }: { variant?: 'fluid' | 'particles' | 'drift' | 'zero-gravity' } = $props();
   let canvas: HTMLCanvasElement;
 
   onMount(() => {
@@ -16,8 +16,9 @@
     let visible = true;
     let pointer: { x: number; y: number } | null = null;
     let fluidPointer = { x: .5, y: .5 };
-    let particles: { x: number; y: number; vx: number; vy: number; color: number; life: number }[] = [];
+    let particles: { x: number; y: number; vx: number; vy: number; color: number; life: number; glyph: string; streak: boolean }[] = [];
     const colors = ['138, 91, 220', '67, 162, 228', '70, 189, 197'];
+    const glyphs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*()';
 
     function resize() {
       if (!context) return;
@@ -27,13 +28,15 @@
       canvas.width = Math.round(width * ratio);
       canvas.height = Math.round(height * ratio);
       context.setTransform(ratio, 0, 0, ratio, 0, 0);
-      particles = Array.from({ length: Math.min(180, Math.max(60, Math.floor(width * height / 6000))) }, (_, index) => ({
+      particles = Array.from({ length: Math.min(180, Math.max(60, Math.floor(width * height / (variant === 'drift' ? 11000 : 6000)))) }, (_, index) => ({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: 0,
-        vy: 0,
+        vx: variant === 'zero-gravity' ? (Math.random() - .5) * .65 : 0,
+        vy: variant === 'zero-gravity' ? (Math.random() - .5) * .65 : 0,
         color: index % colors.length,
-        life: Math.random() * 220
+        life: Math.random() * 220,
+        glyph: glyphs[Math.floor(Math.random() * glyphs.length)],
+        streak: index % 5 === 0
       }));
     }
 
@@ -73,14 +76,46 @@
         return;
       }
 
+      if (variant === 'zero-gravity') {
+        for (const particle of particles) {
+          if (pointer) {
+            const dx = particle.x - pointer.x;
+            const dy = particle.y - pointer.y;
+            const distance = Math.hypot(dx, dy);
+            if (distance > 0 && distance < 130) {
+              const force = (1 - distance / 130) * .025;
+              particle.vx += dx / distance * force;
+              particle.vy += dy / distance * force;
+            }
+          }
+          const speed = Math.hypot(particle.vx, particle.vy);
+          if (speed > .5) { particle.vx *= .98; particle.vy *= .98; }
+          particle.x += particle.vx * step;
+          particle.y += particle.vy * step;
+          if (particle.x < 3 || particle.x > width - 3) {
+            particle.vx *= -1;
+            particle.x = Math.max(3, Math.min(width - 3, particle.x));
+          }
+          if (particle.y < 3 || particle.y > height - 3) {
+            particle.vy *= -1;
+            particle.y = Math.max(3, Math.min(height - 3, particle.y));
+          }
+          context.beginPath();
+          context.arc(particle.x, particle.y, 1.2 + particle.color * .5, 0, Math.PI * 2);
+          context.fillStyle = `rgba(${colors[particle.color]}, .5)`;
+          context.fill();
+        }
+        return;
+      }
+
       for (const particle of particles) {
         const angle = Math.sin(particle.x * .004 + phase) * 2 + Math.cos(particle.y * .005 - phase) * 2;
         const speed = variant === 'particles' ? .45 : 1.1;
         let vx = Math.cos(angle) * speed;
         let vy = Math.sin(angle) * speed;
         if (variant === 'drift') {
-          vx = Math.sin(phase + particle.y * .003) * .35;
-          vy = -.3 - particle.color * .15;
+          vx = Math.sin(phase + particle.y * .003) * .12;
+          vy = .16 + particle.color * .1;
         }
         if (pointer) {
           const dx = particle.x - pointer.x;
@@ -104,14 +139,33 @@
           continue;
         }
         const opacity = Math.min(1, particle.life / 20, (260 - particle.life) / 30);
+        if (variant === 'drift') {
+          const dark = document.documentElement.dataset.theme === 'dark';
+          context.font = '13px monospace';
+          context.fillStyle = `rgba(${dark ? '178, 192, 211' : '68, 88, 116'}, ${opacity * .48})`;
+          context.fillText(particle.glyph, particle.x, particle.y);
+          if (particle.streak) {
+            const length = 28 + particle.color * 18;
+            const streak = context.createLinearGradient(particle.x, particle.y - length, particle.x, particle.y);
+            streak.addColorStop(0, 'rgba(62, 153, 233, 0)');
+            streak.addColorStop(1, `rgba(62, 153, 233, ${opacity * .6})`);
+            context.beginPath();
+            context.moveTo(particle.x, particle.y - length);
+            context.lineTo(particle.x, particle.y - 8);
+            context.strokeStyle = streak;
+            context.lineWidth = 1;
+            context.stroke();
+          }
+          continue;
+        }
         context.beginPath();
-        const radius = variant === 'drift' ? 1.5 + particle.color * 1.4 : particle.color === 0 ? 2.4 : 1.6;
+        const radius = particle.color === 0 ? 2.4 : 1.6;
         context.arc(particle.x, particle.y, radius, 0, Math.PI * 2);
         context.fillStyle = `rgba(${colors[particle.color]}, ${opacity * .65})`;
         context.fill();
       }
 
-      if (variant === 'particles') {
+      if (variant === 'particles' || variant === 'drift') {
         context.lineWidth = .7;
         for (let i = 0; i < particles.length; i++) {
           for (let j = i + 1; j < particles.length; j++) {
@@ -119,11 +173,11 @@
             const b = particles[j];
             const distance = Math.hypot(a.x - b.x, a.y - b.y);
             if (distance >= 100) continue;
-            const opacity = (1 - distance / 100) * .18 * Math.min(1, a.life / 20, b.life / 20);
+            const opacity = (1 - distance / 100) * (variant === 'drift' ? .09 : .18) * Math.min(1, a.life / 20, b.life / 20);
             context.beginPath();
             context.moveTo(a.x, a.y);
             context.lineTo(b.x, b.y);
-            context.strokeStyle = `rgba(${colors[a.color]}, ${opacity})`;
+            context.strokeStyle = `rgba(${variant === 'drift' ? '99, 139, 180' : colors[a.color]}, ${opacity})`;
             context.stroke();
           }
         }
