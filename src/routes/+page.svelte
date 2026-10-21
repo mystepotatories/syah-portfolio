@@ -1,7 +1,9 @@
 <script lang="ts">
-  import { fade, fly } from 'svelte/transition';
-  import { projects, projectSlug } from '$lib/projects';
-  const featuredProjects = projects.slice(0, 3);
+  import Header from '$lib/Header.svelte';
+  import FeaturedCarousel from '$lib/FeaturedCarousel.svelte';
+  import FluidParticlesBackground from '$lib/FluidParticlesBackground.svelte';
+  import { reveal } from '$lib/reveal';
+  import { projects } from '$lib/projects';
 </script>
 
 <svelte:head>
@@ -9,48 +11,68 @@
   <meta name="description" content="Selected web and application work by SYERRY." />
 </svelte:head>
 
-<header class="nav">
-  <a class="logo" href="#top">SYAHIRAH</a>
-  <nav aria-label="Primary navigation"><a href="/projects">Projects</a><a href="#about">About</a><a href="mailto:hello@nursyahirah.dev">Contact</a></nav>
-</header>
+<Header />
 
 <main id="top">
   <section class="hero">
-    <div class="hero-copy" in:fly={{ y: 24, duration: 500 }}>
-      <p class="eyebrow">Web & App Developer · Kuala Lumpur</p>
+    <FluidParticlesBackground />
+    <div class="hero-art" aria-hidden="true">
+      <svg class="swirl swirl-one" viewBox="0 0 600 600" fill="none"><path d="M515.266 181.33C377.943 51.564 128.537 136.256 50.8123 293.565C-26.9127 450.874 125.728 600 125.728 600" /></svg>
+      <svg class="swirl swirl-two" viewBox="0 0 700 700" fill="none"><path d="M26.8838 528.274C193.934 689.816 480.051 637.218 594.397 451.983C708.742 266.748 543.953 2.22235 543.953 2.22235" /></svg>
+      <img class="shot shot-one" src="/projects/etow-reference.png" alt="" fetchpriority="high" />
+      <img class="shot shot-two" src="/projects/jksm.webp" alt="" fetchpriority="high" />
+      <img class="shot shot-three" src="/projects/enilai-online.webp" alt="" />
+      <img class="shot shot-four" src="/projects/icomm-mpaj.webp" alt="" />
+      <span class="spark spark-one">✦</span><span class="spark spark-two">✦</span>
+    </div>
+    <div class="hero-copy">
+      <p class="eyebrow">Web & App Developer · Integration Specialist</p>
       <h1>I design and build useful digital experiences.</h1>
       <p class="intro">From mobile applications to GIS dashboards, I turn real requirements into clear, working products.</p>
       <a class="button" href="/projects">View projects <span>↗</span></a>
     </div>
-    <div class="hero-art" aria-label="Preview of selected application projects" in:fade={{ duration: 700 }}>
-      <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
-      <img class="shot shot-one" src="/projects/baron-hotel.png" alt="Baron Hotel travel application" fetchpriority="high" />
-      <img class="shot shot-two" src="/projects/etow-reference.png" alt="eTow towing application" fetchpriority="high" />
-      <span class="spark spark-one">✦</span><span class="spark spark-two">✦</span>
-    </div>
+
   </section>
 
   <section class="work" id="work">
-    <header class="section-head"><p class="eyebrow">Featured work</p><h2>A few selected projects.</h2></header>
-    <div class="project-grid">
-      {#each featuredProjects as project, index}
-        <article class={`project ${project.tone}`}>
-          <a href={`/projects/${projectSlug(project.title)}`} aria-label={`View ${project.title}`}>
-            <span class="project-number">0{index + 1}</span>
-            <div class="project-image"><img src={project.image} alt={`${project.title} project interface`} loading="lazy" /></div>
-            <div class="project-copy"><p>{project.category}</p><h3>{project.title}</h3><span>View project ↗</span></div>
-          </a>
-        </article>
-      {/each}
-    </div>
-    <div class="view-all"><a class="button button-light" href="/projects">View all projects <span>↗</span></a></div>
+    <header class="section-head" use:reveal><p class="eyebrow">Featured work</p><h2>A few selected projects.</h2></header>
+    <FeaturedCarousel items={projects.filter((project) => project.featured !== false)} />
+    <div class="view-all" use:reveal><a class="button button-light" href="/projects">View all projects <span>↗</span></a></div>
   </section>
 
   <section class="about" id="about">
-    <p class="eyebrow">About me</p>
-    <div><h2>Hello, I’m SYERRY.</h2><p>I create web and mobile products across travel, ecommerce, services, asset management and GIS. I care about interfaces that feel clear, approachable and useful.</p></div>
+
+    <p class="eyebrow" use:reveal>About me</p>
+    <div class="about-copy" use:reveal={100}><h2>Hello, I’m Syerry.</h2><p>I build web and mobile applications across multiple technology stacks, with broad experience in enterprise systems, ecommerce, asset management and GIS.</p></div>
+    <div class="about-particles" aria-hidden="true">
+      {#each Array(16) as _, index}
+        <span
+            class="about-particle"
+            class:dot={index % 4 !== 0}
+            style:left={`${4 + (index * 17) % 92}%`}
+            style:top={`${12 + (index * 29) % 76}%`}
+            style:--size={`${index % 4 === 0 ? 22 : 5 + index % 4}px`}
+            style:--delay={`${index * -.6}s`}
+            style:--duration={`${5 + index % 4}s`}
+            style:--drift={`${index % 2 ? 15 : -15}px`}
+        >{index % 4 === 0 ? '✦' : ''}</span>
+      {/each}
+    </div>
   </section>
 
 </main>
 
-<style>@import './style.css';</style>
+<style>
+  @import './home.css';
+
+  .about { position: relative; isolation: isolate; overflow: hidden; }
+  .about>.eyebrow { grid-column: 1; grid-row: 1; }
+  .about>.about-copy { grid-column: 2; grid-row: 1; width: 100%; }
+  .about>.about-particles { position: absolute; z-index: 0; inset: 0; width: 100%; max-width: none; pointer-events: none; }
+  .about-particle { position: absolute; width: var(--size); height: var(--size); color: var(--accent); font-size: var(--size); line-height: 1; animation: about-float var(--duration) ease-in-out var(--delay) infinite !important; }
+  .about-particle.dot { border-radius: 50%; background: currentColor; }
+  .about-particle:nth-child(2n) { color: #4faee0; }
+  @keyframes about-float { 0%, 100% { opacity: .15; transform: translate3d(0, 0, 0) rotate(0deg); } 50% { opacity: .45; transform: translate3d(var(--drift), -22px, 0) rotate(30deg); } }
+  @media (max-width: 760px) { .about>.eyebrow { grid-column: 1; grid-row: 1; } .about>.about-copy { grid-column: 1; grid-row: 2; } }
+  @media (max-width: 600px) { .about-particle:nth-child(n + 9) { display: none; } }
+</style>

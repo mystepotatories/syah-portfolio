@@ -1,20 +1,27 @@
 <script lang="ts">
   import { projects, projectSlug } from '$lib/projects';
+  import Header from '$lib/Header.svelte';
+  import ProjectImage from '$lib/ProjectImage.svelte';
+  import FluidParticlesBackground from '$lib/FluidParticlesBackground.svelte';
+  import { reveal } from '$lib/reveal';
 </script>
 
 <svelte:head><title>Projects — SYERRY</title></svelte:head>
 
-<header><a href="/">SYAHIRAH</a><a href="/#about">About</a></header>
-<main>
-  <p>Selected work</p>
-  <h1>Projects</h1>
+<Header />
+<main class="projects-page">
+  <div class="particle-backdrop" aria-hidden="true">
+    <div class="particle-viewport"><FluidParticlesBackground variant="drift" /></div>
+  </div>
+  <p class="eyebrow" use:reveal>Selected work</p>
+  <h1 use:reveal={80}>Projects</h1>
   <section>
     {#each projects as project, index}
-      <article class={project.tone}>
-        <a href={`/projects/${projectSlug(project.title)}`}>
-          <span>0{index + 1}</span>
-          <img src={project.image} alt={`${project.title} project interface`} />
-          <div><small>{project.category}</small><h2>{project.title}</h2><p>{project.desc}</p><b>View project ↗</b></div>
+      <article class={project.tone} use:reveal={80}>
+        <a class="project-card" href={`/projects/${projectSlug(project.title)}`}>
+          <span>{String(index + 1).padStart(2, '0')}</span>
+          <div class="list-image"><ProjectImage src={project.image} alt={`${project.title} project interface`} /></div>
+          <div><small>{project.category}</small><h2>{project.title}</h2><p>{project.desc}</p><b class="text-link">View project ↗</b></div>
         </a>
       </article>
     {/each}
@@ -22,5 +29,19 @@
 </main>
 
 <style>
-  :global(*){box-sizing:border-box} :global(body){margin:0;background:#11100e;color:#f6f0e5;font-family:Arial,sans-serif} header{display:flex;justify-content:space-between;padding:1.5rem 4vw} a{color:inherit;text-decoration:none} main{padding:5vw} h1{font-size:clamp(4rem,12vw,10rem);margin:.1em 0 .5em} section{display:grid;gap:2rem} article{background:#24211d} article a{display:grid;grid-template-columns:3rem minmax(0,1fr) minmax(16rem,.7fr);gap:2rem;align-items:center;padding:2rem} img{width:100%;max-height:28rem;object-fit:contain} h2{font-size:clamp(2rem,5vw,5rem);margin:.15em 0} p{line-height:1.6} b{color:#ffc400}@media(max-width:700px){article a{grid-template-columns:1fr}article a>span{display:none}}
+  .projects-page{position:relative;isolation:isolate;max-width:88rem;margin:auto;padding:clamp(2rem,5vw,4rem) var(--gutter)}
+  .particle-backdrop{position:absolute;z-index:-1;inset-block:0;left:50%;width:100vw;transform:translateX(-50%);pointer-events:none;overflow:clip}
+  .particle-viewport{position:sticky;top:0;height:100vh;height:100dvh}
+  h1{font-size:clamp(2.75rem,6vw,5rem);margin:0 0 2rem;line-height:1.1}
+  section{display:grid;gap:1.25rem}
+  article{border-radius:var(--radius);color:var(--card-ink);overflow:hidden}
+  article a{display:grid;grid-template-columns:2rem minmax(0,1.1fr) minmax(0,1fr);gap:clamp(1rem,3vw,2.5rem);align-items:center;padding:clamp(1.25rem,3vw,2.5rem)}
+  article a>span{align-self:start;font-weight:600}
+  .list-image{display:grid;grid-template-rows:minmax(0,1fr);place-items:center;height:clamp(15rem,26vw,23rem);min-width:0}
+  .list-image :global(img){display:block;min-width:0;min-height:0;max-height:100%;width:100%;height:100%;object-fit:contain;transition:transform .5s var(--ease-out)}
+  small{font-size:.8rem;font-weight:700}
+  h2{font-size:clamp(1.75rem,3vw,2.75rem);margin:.4rem 0;line-height:1.15}
+  p{line-height:1.65} b{display:inline-block;margin-top:.5rem}
+  @media(hover:hover){article a:hover .list-image :global(img){transform:translateY(-4px)}}
+  @media(max-width:700px){article a{grid-template-columns:1fr;gap:1.25rem}article a>span{display:none}.list-image{height:18rem}}
 </style>

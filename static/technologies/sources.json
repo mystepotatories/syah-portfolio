@@ -1,0 +1,81 @@
+{
+  "react.png": {
+    "source": "https://react.dev/favicon-32x32.png"
+  },
+  "nodejs.svg": {
+    "source": "https://nodejs.org/static/logos/nodejsHex.svg"
+  },
+  "laravel.svg": {
+    "source": "https://laravel.com/img/logomark.min.svg"
+  },
+  "fme.png": {
+    "source": "https://cdn.safe.com/wp-content/uploads/sites/2/2023/03/22115043/cropped-fme-favicon-512x512-2-192x192.png",
+    "attribution": "FME is a registered trademark of Safe Software Inc."
+  },
+  "arcgis.png": {
+    "source": "https://www.arcgis.com/favicon.ico"
+  },
+  "oracle.png": {
+    "source": "https://www.oracle.com/asset/web/favicons/favicon-192.png"
+  },
+  "vue.svg": {
+    "source": "https://vuejs.org/logo.svg"
+  },
+  "inertia.png": {
+    "source": "https://inertiajs.com/favicon.ico"
+  },
+  "wordpress.png": {
+    "source": "https://s.w.org/style/images/about/WordPress-logotype-wmark.png"
+  },
+  "elementor.svg": {
+    "source": "https://elementor.com/wp-content/uploads/2025/10/logo-symbol-1.svg"
+  },
+  "php.svg": {
+    "source": "https://www.php.net/images/logos/new-php-logo.svg"
+  },
+  "html.svg": {
+    "source": "https://www.w3.org/html/logo/downloads/HTML5_Badge.svg"
+  },
+  "css.svg": {
+    "source": "https://raw.githubusercontent.com/CSS-Next/logo.css/main/css.svg"
+  },
+  "flutter.svg": {
+    "source": "https://docs.flutter.dev/assets/images/branding/flutter/logo/default.svg"
+  },
+  "firebase.png": {
+    "source": "https://firebase.google.com/static/images/brand-guidelines/logo-logomark.png"
+  },
+  "sqlite.svg": {
+    "source": "https://sqlite.org/images/sqlite370_banner.svg"
+  },
+  "ionic.png": {
+    "source": "https://ionicframework.com/android-icon-192x192.png"
+  },
+  "mysql.png": {
+    "source": "https://www.mysql.com/favicon.ico"
+  },
+  "mssql.svg": {
+    "source": "https://learn.microsoft.com/static/media/product/azure/sql-server.svg"
+  },
+  "ipay88.png": {
+    "source": "https://payment.ipay88.com.my/epayment/image/ipay88.ico"
+  },
+  "woocommerce.png": {
+    "source": "https://woocommerce.com/wp-content/uploads/2024/12/cropped-logo-w-favicon.png?w=192"
+  },
+  "wpbakery.png": {
+    "source": "https://wpbakery.com/wp-content/uploads/2023/08/cropped-favico-192x192.png"
+  },
+  "billplz.svg": {
+    "source": "https://main.billplz.com/assets/favicon/favicon.svg?v=1.1"
+  },
+  "jnt.png": {
+    "source": "https://www.jtexpress.my/img/jnt.png"
+  },
+  "kpkt.png": {
+    "source": "https://www.kpkt.gov.my/kpkt/modules_resources/settings/69259445caf1dd46158d1e8dab518bae.png"
+  },
+  "mbs.png": {
+    "source": "https://www.mbs.gov.my/sites/default/files/favicon-mbs_0.png"
+  }
+}

@@ -1,0 +1,55 @@
+.hero { position: relative; isolation: isolate; display: grid; place-items: center; min-height: clamp(46rem, 82svh, 58rem); overflow: hidden; padding: 8rem var(--gutter); background: var(--hero-bg); }
+.hero-copy { position: relative; z-index: 2; width: 100%; max-width: 34rem; text-align: center; }
+h1 { margin: 0; font-size: clamp(2.5rem, 4.3vw, 4.5rem); line-height: 1.12; }
+.intro { max-width: 32rem; margin: 1.5rem auto 2rem; color: var(--muted); font-size: clamp(1rem, 1.3vw, 1.2rem); line-height: 1.7; }
+.hero-art { position: absolute; z-index: 1; inset: 0; pointer-events: none; }
+/* Keep the requested hero autoplay independent of the global motion toggle. */
+.hero .shot { position: absolute; display: block; width: clamp(11rem, 21vw, 20rem); height: clamp(13rem, 25vw, 24rem); object-fit: contain; filter: drop-shadow(0 1rem 1.5rem #160c2926); animation: hero-float var(--float-duration, 6s) ease-in-out var(--float-delay, 0s) infinite !important; }
+.shot-one { --tilt: 8deg; --sway: 3deg; left: max(1rem, calc((100vw - 88rem) / 2)); top: 2rem; --float-delay: -.3s; }
+.shot-two { --tilt: -8deg; --sway: -3deg; right: max(1rem, calc((100vw - 88rem) / 2)); top: 1rem; --float-delay: -1.8s; --float-duration: 7s; }
+.shot-three { --tilt: 9deg; --sway: 2deg; left: max(2rem, calc((100vw - 83rem) / 2)); bottom: 1.5rem; width: clamp(10rem, 17vw, 16rem); height: clamp(11rem, 20vw, 19rem); --float-delay: -3.1s; --float-duration: 6.6s; }
+.shot-four { --tilt: -10deg; --sway: -2deg; right: max(2rem, calc((100vw - 83rem) / 2)); bottom: 1rem; width: clamp(10rem, 18vw, 17rem); height: clamp(11rem, 20vw, 19rem); --float-delay: -4.3s; --float-duration: 7.4s; }
+.swirl { position: absolute; width: 44rem; height: 44rem; max-width: none; color: var(--accent); opacity: .16; }
+.swirl path { stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.swirl-one { left: -12rem; top: -16rem; }
+.swirl-two { right: -14rem; bottom: -16rem; }
+.hero .spark { position: absolute; color: var(--accent); font-size: 1.5rem; opacity: .65; animation: hero-float var(--float-duration, 6s) ease-in-out var(--float-delay, 0s) infinite !important; }
+.spark-one { left: 31%; top: 12%; --float-delay: -2s; }
+.spark-two { right: 31%; bottom: 12%; --float-delay: -4s; }
+.work { max-width: 88rem; margin: auto; padding: clamp(2.5rem, 5vw, 4.5rem) var(--gutter); }
+.section-head { margin-bottom: 1.75rem; }
+.section-head h2, .about h2 { margin: 0; font-size: clamp(1.875rem, 3vw, 2.75rem); line-height: 1.2; }
+.view-all { display: flex; justify-content: center; margin-top: 1.75rem; }
+.about { position: relative; isolation: isolate; overflow: hidden; display: grid; grid-template-columns: minmax(8rem, .35fr) minmax(0, 1fr); gap: 1.5rem; padding: clamp(2.5rem, 5vw, 4.5rem) max(var(--gutter), calc((100vw - 78rem) / 2)); background: var(--surface-alt); }
+.about>.eyebrow { position: relative; z-index: 1; padding-top: .6rem; }
+.about-copy { position: relative; z-index: 1; max-width: 46rem; }
+.about-copy>p { margin: 1rem 0 0; color: var(--muted); font-size: clamp(1rem, 1.4vw, 1.2rem); line-height: 1.75; }
+.hero-copy>* { animation: enter .9s var(--ease-out) backwards; }
+.hero-copy>h1 { animation-delay: .09s; }
+.hero-copy>.intro { animation-delay: .18s; }
+.hero-copy>.button { animation-delay: .27s; }
+@keyframes enter { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes hero-float { 0%,100% { transform: translate3d(0, 0, 0) rotate(var(--tilt, 0deg)); } 50% { transform: translate3d(0, -20px, 0) rotate(calc(var(--tilt, 0deg) + var(--sway, 3deg))); } }
+@media (min-width: 1600px) { .hero-copy { max-width: 40rem; } }
+@media (max-width: 1200px) {
+  .hero { min-height: 0; padding-block: 15rem 17rem; }
+  .hero-copy { max-width: 38rem; }
+  .shot-one, .shot-two { top: 1rem; width: 34%; height: 13rem; }
+  .shot-three, .shot-four { bottom: 3rem; width: 32%; height: 13rem; }
+  .shot-one, .shot-three { left: 8%; }
+  .shot-two, .shot-four { right: 8%; }
+  .spark-one { left: 47%; top: 8%; }
+  .spark-two { right: 48%; bottom: 9%; }
+}
+@media (max-width: 600px) {
+  .hero { padding-block: 12rem 14rem; }
+  .hero-copy .eyebrow { max-width: 28ch; margin-inline: auto; font-size: .6875rem; }
+  h1 { font-size: clamp(2.25rem, 8vw, 3rem); }
+  .shot-one, .shot-two { width: 40%; height: 9rem; top: 1.5rem; }
+  .shot-three, .shot-four { width: 38%; height: 10rem; bottom: 3rem; }
+  .shot-one, .shot-three { left: 4%; }
+  .shot-two, .shot-four { right: 4%; }
+}
+@media (max-width: 760px) { .about { grid-template-columns: 1fr; gap: .75rem; } }
+@media (prefers-reduced-motion: reduce) { .hero-copy>* { animation: none; } }
+
